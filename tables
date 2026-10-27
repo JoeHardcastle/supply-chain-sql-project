@@ -1,0 +1,48 @@
+-- This portfolio project is based on data, which i put together, and is a variation on the classic warehouse/delivery
+-- theme. 
+-- It has 4 tables, arranged in a star-schema style. Central to it is the "fact_deliveries" table, 
+-- which contains data connected to each  unique delivery. 
+-- The 3 tables: "dim_employees", "dim_client" and "dim_warehouse" are the accessory tables that provide the 
+-- 'fixed' data regarding the employees, the clients and the warehouses.
+-- At the top of the page are 4 DROP queries which allow for the resetting of the schema, should it become 
+-- necessary.
+
+
+
+DROP TABLE IF EXISTS fact_deliveries CASCADE;
+DROP TABLE IF EXISTS dim_employees CASCADE;
+DROP TABLE IF EXISTS dim_client CASCADE;
+DROP TABLE IF EXISTS dim_warehouse CASCADE;
+
+CREATE TABLE dim_employees (
+    employee_id SERIAL PRIMARY KEY,
+    name VARCHAR(60) NOT NULL,
+    hire_date DATE NOT NULL,
+    contract_type VARCHAR(30) NOT NULL,
+    transport_mode VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE dim_client (
+    client_id SERIAL PRIMARY KEY,
+    client_name VARCHAR(100) NOT NULL,
+    date_registered_as_client DATE NOT NULL
+);
+
+CREATE TABLE dim_warehouse (
+    warehouse_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    location VARCHAR(30) NOT NULL,
+    size_of_warehouse VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE fact_deliveries (
+    delivery_id SERIAL PRIMARY KEY,
+    employee_id INT REFERENCES dim_employees(employee_id),
+    warehouse_id INT REFERENCES dim_warehouse(warehouse_id),
+    client_id INT REFERENCES dim_client(client_id),
+    date_of_delivery DATE NOT NULL,
+    delivered_on_time BOOLEAN NOT NULL,
+    number_of_items INT NOT NULL,
+    satisfaction_rating DECIMAL(3,2) NOT NULL,
+    distance_from_warehouse_km INT NOT NULL
+);
