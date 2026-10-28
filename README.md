@@ -1,3 +1,5 @@
+jhrdcstl77@gmail.com | github.com/JoeHardcastle
+
 ## Database Architecture (Star Schema)
 The project is built around a relational star schema designed for analysis of company performance focusing on the relationships between the employees, warehouses and clients:
 - **`fact_deliveries` (Central Fact Table):** Records the data associated with each unique delivery, metrics such as delivery dates, number of items, satisfaction ratings and distance from warehouse, as well as foreign keys.
